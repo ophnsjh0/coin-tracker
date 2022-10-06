@@ -91,7 +91,7 @@ const Tab = styled.span < { isActive: boolean } >`
     color: ${(props) => props.isActive ? props.theme.accentColor : props.theme.textColor};
 `;
 
-const HomeButton = styled.div `
+const HomeButton = styled.div`
     display : flex;
     justify-content: center;
     align-items: center;
@@ -193,8 +193,8 @@ interface ICoinProps {
 function Coin({ }: ICoinProps) {
     const { coinId } = useParams<RouterParam>();
     const { state } = useLocation<RouteState>();
-    const priceMatch = useRouteMatch("/:coinid/price");
-    const chartMatch = useRouteMatch("/:coinid/chart");
+    const priceMatch = useRouteMatch("/coin-tracker/:coinid/price");
+    const chartMatch = useRouteMatch("/coin-tracker/:coinid/chart");
     const { isLoading: infoLoading, data: infoData } = useQuery<InfoData>(["info", coinId], () => fetchCoinInfo(coinId),
         {
             refetchInterval: 10000,
@@ -228,13 +228,13 @@ function Coin({ }: ICoinProps) {
                 <Title>
                     <Link
                         to={{
-                            pathname: `/`,
+                            pathname: `/coin-tracker`,
                         }}>
                         <Img src={`https://coinicons-api.vercel.app/api/icon/${infoData?.symbol.toLocaleLowerCase()}`} />
                         {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
                         <HomeButton> 🏠 </HomeButton>
                     </Link>
-                </Title>  
+                </Title>
             </Header>
             {loading ? (<Loder>Loading .....</Loder>
             ) : (
@@ -269,17 +269,17 @@ function Coin({ }: ICoinProps) {
                     </Overview>
                     <Tabs>
                         <Tab isActive={chartMatch !== null}>
-                            <Link to={`/${coinId}/chart`}>CHART</Link>
+                            <Link to={`/coin-tracker/${coinId}/chart`}>CHART</Link>
                         </Tab>
                         <Tab isActive={priceMatch !== null}>
-                            <Link to={`/${coinId}/price`}>PRICE</Link>
+                            <Link to={`/coin-tracker/${coinId}/price`}>PRICE</Link>
                         </Tab>
                     </Tabs>
                     <Switch>
-                        <Route path={`/${coinId}/price`}>
+                        <Route path={`/coin-tracker/${coinId}/price`}>
                             <Price coinId={coinId} />
                         </Route>
-                        <Route path={`/${coinId}/chart`}>
+                        <Route path={`/coin-tracker/${coinId}/chart`}>
                             <Chart coinId={coinId} />
                         </Route>
                     </Switch>

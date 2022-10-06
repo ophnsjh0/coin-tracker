@@ -37,7 +37,7 @@ function Chart({ coinId }: ChartProp) {
             refetchInterval: 10000,
         }
     );
-    console.log(data);
+    // console.log(data);
     const [line, setLine] = useState(true);
     const toggleChart = () => {
         setLine((current) => !current);
